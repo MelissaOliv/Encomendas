@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header>
+    <h1>Sistema de Pedidos</h1>
+    <div class="user-info">
+        Olá, {{ session['usuario_nome'] }}!
+        <a href="{{ url_for('logout') }}">Sair</a>
+    </div>
+</header>
+
+<nav>
+    <button class="tab-btn active" onclick="abrirTab('novo-pedido')">Novo Pedido</button>
+    <button class="tab-btn" onclick="abrirTab('meus-pedidos')">Meus Pedidos</button>
+    {% if session['usuario_tipo'] == 'admin' %}
+    <button class="tab-btn" onclick="abrirTab('todos-pedidos')">Todos Pedidos</button>
+    {% endif %}
+</nav>
+
+<main>
+    <div id="novo-pedido" class="tab-content active">
+        <h2>Criar Novo Pedido</h2>
+        <form id="form-pedido">
+            <input type="text" id="cliente" placeholder="Nome do Cliente" required>
+            <textarea id="itens" placeholder="Itens do pedido (um por linha)" required></textarea>
+            <textarea id="observacoes" placeholder="Observações"></textarea>
+            <button type="submit">Salvar Pedido</button>
+        </form>
+    </div>
+
+    <div id="meus-pedidos" class="tab-content">
+        <h2>Meus Pedidos</h2>
+        <div id="lista-meus-pedidos"></div>
+    </div>
+
+    {% if session['usuario_tipo'] == 'admin' %}
+    <div id="todos-pedidos" class="tab-content">
+        <h2>Todos os Pedidos</h2>
+        <div id="lista-todos-pedidos"></div>
+    </div>
+    {% endif %}
+</main>
+
+<div id="chat-modal" class="modal">
+    <div class="modal-content">
+        <h2>Chat do Pedido <span id="chat-pedido-id"></span></h2>
+        <div class="chat-messages" id="chat-messages"></div>
+        <form id="form-mensagem">
+            <input type="text" id="mensagem-texto" placeholder="Digite sua mensagem..." required>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

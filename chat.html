@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="chat-container">
+    <h1>Chat do Pedido #{{ pedido.id }}</h1>
+    <div class="chat-messages" id="chat-messages">
+        {% for msg in mensagens %}
+        <div class="message {% if msg.usuario_id == session['usuario_id'] %}sent{% else %}received{% endif %}">
+            <strong>{{ msg.usuario_nome }}</strong>
+            <p>{{ msg.texto }}</p>
+            <small>{{ msg.data }}</small>
+        </div>
+        {% endfor %}
+    </div>
+    <form id="form-mensagem">
+        <input type="hidden" id="pedido-id" value="{{ pedido.id }}">
+        <input type="text" id="mensagem-texto" placeholder="Digite sua mensagem..." required>
+        <button type="submit">Enviar</button>
+    </form>
+</div>
+{% endblock %}
